@@ -1,0 +1,28 @@
+.create-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Example border */
+  border-radius: 5px; /* Example border radius */
+  margin-right: 0.5rem; /* Adjust spacing between input and button */
+  outline: none;
+}
+
+.create-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff; /* Example background color */
+  color: white;
+  border: none;
+  border-radius: 5px; /* Example border radius */
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #0056b3; /* Example hover background color */
+}
