@@ -14,13 +14,18 @@ const Home = () => {
   const navigate = useNavigate();
 
   const user = async () => {
-    const { data } = await axios
-      .get(`/user/verify`, {
-        withCredentials: true,
-      })
-      .catch((err) => console.log(err));
-    setUserData(data.getaUser);
-    return data;
+     try {
+       const response = await axios.get(`/user/verify`, {
+         withCredentials: true,
+       });
+       console.log("Response:", response);
+       const data = response.data;
+       setUserData(data.getaUser);
+       return data;
+     } catch (error) {
+       console.error("Error:", error);
+       // Handle error
+     }
   };
 
   useEffect(() => {
