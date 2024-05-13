@@ -65,7 +65,7 @@ const Home = () => {
       if (response && response.data) {
         const updatedTodos = [...todos, response.data];
         setTodos(updatedTodos);
-        console.log(response.data.msg);
+        console.log(response.data);
       } else {
         console.log("No data received from server");
       }
@@ -165,6 +165,7 @@ const Home = () => {
                   type="text"
                   value={editedTaskName}
                   onChange={handleTaskNameChange}
+                  className="edit-in"
                 />
               ) : (
                 <p
@@ -179,7 +180,7 @@ const Home = () => {
             </div>
             <div className="update">
               {editingTaskId === todo._id ? (
-                <button onClick={() => handleTaskNameUpdate(todo._id)}>
+                <button className="up-btn" onClick={() => handleTaskNameUpdate(todo._id)}>
                   Update
                 </button>
               ) : (

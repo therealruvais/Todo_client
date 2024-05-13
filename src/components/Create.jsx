@@ -9,7 +9,6 @@ const Create = ({ addTask }) => {
       await addTask(task);
       setTask("");
     }
-  
   };
 
   return (

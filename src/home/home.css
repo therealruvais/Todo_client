@@ -66,3 +66,26 @@
   display: flex;
   gap: 1rem;
 }
+.edit-in{
+  width: 100%; 
+  padding: 10px; 
+  margin: 10px 0; 
+  font-size: 16px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box;
+}
+.up-btn{
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for a comfortable click area */
+  margin: 10px 0; /* Margin to separate the button from other elements */
+  border: none; /* Remove default border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s ease;
+}
+.up-btn:hover{
+ background-color: #45a049;
+}

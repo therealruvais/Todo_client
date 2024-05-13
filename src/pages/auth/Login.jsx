@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
 
-  const [form, setForm] = useState({ email: "ruvais@gmail.com", password: "123456" });
+  const [form, setForm] = useState({ email: "", password: "" });
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setForm({ ...form, [name]: value });
