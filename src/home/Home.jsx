@@ -9,23 +9,24 @@ import { UserDataContext } from "../context/UserDataContext";
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
-  const { userData,setUserData } = useContext(UserDataContext);
+  const { userData, setUserData } = useContext(UserDataContext);
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editedTaskName, setEditedTaskName] = useState("");
 
   const navigate = useNavigate();
 
   const user = async () => {
-     try {
-       const response = await axios.get(`/user/verify`, {
-         withCredentials: true,
-       });
-       console.log("Response:", response);
-       const data = response.data;
-       setUserData(data.getaUser);
-       return data;
-     } catch (error) {
-       console.error("Error:", error);
-       // Handle error
-     }
+    try {
+      const response = await axios.get(`/user/verify`, {
+        withCredentials: true,
+      });
+      console.log("Response:", response);
+      const data = response.data;
+      setUserData(data.getaUser);
+      return data;
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   useEffect(() => {
@@ -57,7 +58,10 @@ const Home = () => {
 
   const addTask = async (newTask) => {
     try {
-      const response = await axios.post(`/task/create`, { name: newTask,user:userData._id });
+      const response = await axios.post(`/task/create`, {
+        name: newTask,
+        user: userData._id,
+      });
       if (response && response.data) {
         const updatedTodos = [...todos, response.data];
         setTodos(updatedTodos);
@@ -70,21 +74,28 @@ const Home = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    const newName = prompt("Enter the new task name:");
-    if (newName) {
-      axios
-        .put(`/task/${id}`, { name: newName })
-        .then((response) => {
-          const updatedTodos = todos.map((todo) =>
-            todo._id === id ? response.data : todo
-          );
-          setTodos(updatedTodos);
-        })
-        .catch((error) => {
-          console.error("Error updating task:", error);
-        });
-    }
+  const handleEdit = (id, currentName) => {
+    setEditingTaskId(id);
+    setEditedTaskName(currentName);
+  };
+
+  const handleTaskNameChange = (event) => {
+    setEditedTaskName(event.target.value);
+  };
+
+  const handleTaskNameUpdate = (id) => {
+    axios
+      .put(`/task/${id}`, { name: editedTaskName })
+      .then((response) => {
+        const updatedTodos = todos.map((todo) =>
+          todo._id === id ? response.data : todo
+        );
+        setTodos(updatedTodos);
+        setEditingTaskId(null);
+      })
+      .catch((error) => {
+        console.error("Error updating task:", error);
+      });
   };
 
   const handleTaskCompletion = (id) => {
@@ -149,20 +160,34 @@ const Home = () => {
                 checked={todo.completed}
                 onChange={() => handleTaskCompletion(todo._id)}
               />
-              <p
-                style={{
-                  textDecoration: todo.completed ? "line-through" : "none",
-                }}
-                className="tasks"
-              >
-                {todo.name}
-              </p>
+              {editingTaskId === todo._id ? (
+                <input
+                  type="text"
+                  value={editedTaskName}
+                  onChange={handleTaskNameChange}
+                />
+              ) : (
+                <p
+                  style={{
+                    textDecoration: todo.completed ? "line-through" : "none",
+                  }}
+                  className="tasks"
+                >
+                  {todo.name}
+                </p>
+              )}
             </div>
             <div className="update">
-              <FaEdit
-                className="edit"
-                onClick={() => handleEdit(todo._id)}
-              />
+              {editingTaskId === todo._id ? (
+                <button onClick={() => handleTaskNameUpdate(todo._id)}>
+                  Update
+                </button>
+              ) : (
+                <FaEdit
+                  className="edit"
+                  onClick={() => handleEdit(todo._id, todo.name)}
+                />
+              )}
               <RiDeleteBin6Line
                 className="delete"
                 onClick={() => handleDelete(todo._id)}

@@ -9,9 +9,7 @@ const Create = ({ addTask }) => {
       await addTask(task);
       setTask("");
     }
-    // setTimeout(() => {
-    //   setTask("");
-    // }, 2000);
+  
   };
 
   return (
